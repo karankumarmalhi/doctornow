@@ -18,21 +18,19 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Stepper from '@/components/Stepper';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Doctor } from '@/app/model/Doctor';
 import { Label } from '@/components/ui/label';
 import Loader from '@/components/Loader';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const AppointmentForm = () => {
-
-
   const { toast } = useToast();
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [doctor, setDoctor] = useState<Doctor>() 
-  const searchParams = useSearchParams(); 
-  const doctorId = searchParams.get('doctorId');
-  const id = searchParams.get('patientId');
+  const searchParams = useParams()
+  const doctorId = searchParams.doctorId
+  const id = searchParams.patientId
   const router = useRouter()
 
 

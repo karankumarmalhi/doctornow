@@ -39,13 +39,12 @@ import { NextRequest, NextResponse } from "next/server";
  }  
 
 
- export async function POST(request:NextRequest) {
+ export async function POST(request:Request, context: {params:any}) {
 
     // Creating a new Appointment 
     try {
-        const searchParams = request.nextUrl.searchParams
-        const patientID = searchParams.get("patientId")
-        const doctorID = searchParams.get("doctorId");
+        const patientID = context.params.patientId
+        const doctorID = context.params.doctorId
         console.log(doctorID)
         
         if(!patientID || !doctorID) {
