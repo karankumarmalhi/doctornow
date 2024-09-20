@@ -74,7 +74,6 @@ export async function POST(request:Request) {
 
 export async function PATCH( request: Request, {params}:{params:{id:any}} ) {
     try {
-            // Check by Id, If Doctor existing or not
             const { searchParams }= new URL(request.url)
             const doctorId = searchParams.get('doctorId')
             
