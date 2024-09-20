@@ -1,6 +1,6 @@
 import Patient from "@/app/model/Patient";
 import dbConnct from "@/lib/dbConnect";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 import dbConnect from "@/lib/dbConnect";
 
@@ -77,10 +77,10 @@ export async function POST(request:Request) {
             }), {status:500})
         }
 }
-export async function PATCH( request: Request, {params}:{params:{id:string}} ) {
+export async function PATCH( request: NextRequest, {params}:{params:{id:string}} ) {
     try {
             // Check by Id, patient exist or not
-            const {searchParams} = new URL(request.url)
+            const searchParams = request.nextUrl.searchParams
             const patientId  = searchParams.get('patientId')
 
 
@@ -144,10 +144,10 @@ export async function PATCH( request: Request, {params}:{params:{id:string}} ) {
         }, {status:500});
     }
 }
-export async function DELETE( request: Request, {params}:{params:{id:string}} ) {
+export async function DELETE( request: NextRequest, {params}:{params:{id:string}} ) {
     try {
             // Check by Id, patient exist or not
-            const {searchParams} = new URL(request.url)
+            const searchParams = request.nextUrl.searchParams
             const patientId  = searchParams.get('patientId')
 
 

@@ -72,9 +72,9 @@ export async function POST(request:Request) {
         }
 }
 
-export async function PATCH( request: Request, {params}:{params:{id:any}} ) {
+export async function PATCH( request: NextRequest, {params}:{params:{id:any}} ) {
     try {
-            const { searchParams }= new URL(request.url)
+            const searchParams = request.nextUrl.searchParams
             const doctorId = searchParams.get('doctorId')
             
 
@@ -134,10 +134,10 @@ export async function PATCH( request: Request, {params}:{params:{id:any}} ) {
 }
 
 
-export async function DELETE(request: Request,{params}:{params:{id:string}}) {
+export async function DELETE(request: NextRequest,{params}:{params:{id:string}}) {
    try {
 
-    const { searchParams }= new URL(request.url)
+    const searchParams = request.nextUrl.searchParams
     const doctorId = searchParams.get('doctorId')
 
 

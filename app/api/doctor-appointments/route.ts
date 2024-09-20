@@ -1,13 +1,13 @@
 import AppointmentModel from "@/app/model/Appointment"
 import dbConnect from "@/lib/dbConnect"
 import mongoose, { Types } from "mongoose"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function GET( request:Request, {params}:{params:any}) {
+export async function GET( request:NextRequest, {params}:{params:any}) {
 
     await dbConnect()
         try {
-            const { searchParams } = new URL(request.url)
+           const searchParams = request.nextUrl.searchParams
             const doctorId = searchParams.get('doctorId')
             if(!doctorId) {
                 return new NextResponse(JSON.stringify({

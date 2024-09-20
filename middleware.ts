@@ -24,9 +24,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/verify/:path*',
-    '/doctor-form/:path*',
-    '/patient-form:path*',
-    "/patients/:path*",
-    "/appointment-form/:path*"
+    // '/doctor-form/:path*',
+    // '/patient-form:path*',
+    // "/patients/:path*",
+    // "/appointment-form/:path*"
     ],
 }

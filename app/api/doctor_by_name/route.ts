@@ -1,11 +1,11 @@
 import DoctorModel from "@/app/model/Doctor";
 import dbConnect from "@/lib/dbConnect";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request:Request) {
+export async function GET(request:NextRequest) {
     try {
         await dbConnect()
-        const { searchParams  } = new URL(request.url)
+        const searchParams = request.nextUrl.searchParams
         const firstName = searchParams.get("firstName")
         const lastName = searchParams.get("lastName")
 

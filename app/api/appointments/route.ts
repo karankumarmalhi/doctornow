@@ -3,7 +3,7 @@ import { appointmentSchema } from "@/app/Schema/appointmentSchema";
 import dbConnect from "@/lib/dbConnect";
 import dbConnct from "@/lib/dbConnect";
 import mongoose, { Types } from "mongoose";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 // Get all appointments
@@ -39,11 +39,11 @@ import { NextResponse } from "next/server";
  }  
 
 
- export async function POST(request:Request) {
+ export async function POST(request:NextRequest) {
 
     // Creating a new Appointment 
     try {
-        const { searchParams } = new URL(request.url)
+        const searchParams = request.nextUrl.searchParams
         const patientID = searchParams.get("patientId")
         const doctorID = searchParams.get("doctorId");
         console.log(doctorID)
@@ -109,11 +109,11 @@ import { NextResponse } from "next/server";
         }
 }
 
- export async function PATCH( request:Request, {params}:{params:{id:string}} ) {
+ export async function PATCH( request:NextRequest, {params}:{params:{id:string}} ) {
     try {
 
         await dbConnct()
-        const { searchParams } = new URL(request.url)
+        const searchParams = request.nextUrl.searchParams
         const appointmentID = searchParams.get("appoitmentID")
         const patientID = searchParams.get("patientID")
         const doctotID = searchParams.get("doctorID");
@@ -159,11 +159,11 @@ import { NextResponse } from "next/server";
         }) , {status:500});
     }
 }
-export async function DELETE( request:Request ) {
+export async function DELETE( request:NextRequest ) {
  try {
     await dbConnct()
 
-    const { searchParams } = new URL(request.url)
+    const searchParams = request.nextUrl.searchParams
     const appointmentID = searchParams.get('appointmentID')
 
     if(!appointmentID) {
