@@ -2,10 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 import { Doctor } from "./Doctor";
 import { Patient } from "./Patient";
-import { User } from "./User";
 
 export interface Appointment extends Document{
-    user:User
     patient: Patient,
     doctor:Doctor,
     appointmentDate:Date,
@@ -15,10 +13,6 @@ export interface Appointment extends Document{
 }
 
 const AppointmentSchema:Schema<Appointment> = new Schema({
-    user:{
-        type:mongoose.Types.ObjectId,
-        ref:'User'
-    },
     patient: {
         type: mongoose.Schema.ObjectId,
         ref:'Patient',

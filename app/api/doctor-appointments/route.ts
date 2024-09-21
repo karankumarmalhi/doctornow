@@ -7,7 +7,7 @@ export async function GET( request:Request, context:{params:any}) {
 
     await dbConnect()
         try {
-            const doctorId = context.params.doctorId
+            const doctorId = context.params?.doctorId
             if(!doctorId) {
                 return new NextResponse(JSON.stringify({
                     message:'Appointment Id is required',

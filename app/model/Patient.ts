@@ -1,10 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { Contact, ContactSchema } from "./Doctor";
-import { User } from "./User";
-
 
 export interface Patient {
-    User:User,
+
     fullName:string,
     age: string,
     gender:string,
@@ -16,10 +13,6 @@ export interface Patient {
 }
 
 const PatientSchema: Schema<Patient> = new Schema({
-    User: {
-        type:mongoose.Types.ObjectId,
-        ref:"User"
-    },
     fullName: {
         type:String,
         required:[true, 'Name is reqired'],

@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document, Types} from "mongoose";
-import { User } from "./User";
+
 
 
 
@@ -46,7 +46,6 @@ const AvailabilitySchema : Schema<Availability> = new Schema({
 
 export interface Doctor {
     _id:Types.ObjectId,
-    User:User
     firstName: string,
     lastName:string,
     gender:string,
@@ -62,10 +61,6 @@ export interface Doctor {
 }
 
 const DoctorSchema: Schema<Doctor> = new Schema({
-    User:{
-        type:mongoose.Types.ObjectId,
-        ref:'User'
-    },
     firstName:{
         type: String,
         required: [true, 'First name is required'],
