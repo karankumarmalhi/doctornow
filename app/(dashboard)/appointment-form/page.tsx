@@ -18,11 +18,12 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Stepper from '@/components/Stepper';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { redirect, useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Doctor } from '@/app/model/Doctor';
 import { Label } from '@/components/ui/label';
 import Loader from '@/components/Loader';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useUser } from '@clerk/nextjs';
 
 const AppointmentForm = () => {
   const { toast } = useToast();
@@ -43,6 +44,13 @@ const AppointmentForm = () => {
       status: 'pending',
     }
   });
+
+  const user = useUser()
+
+  if(user.isSignedIn !== true) {
+    redirect('/sign-up') 
+  }
+
 
 
   useEffect(() => {

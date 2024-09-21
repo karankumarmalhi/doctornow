@@ -3,7 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster"
-import AuthProvider from "./context/AuthProvider";
+import { ClerkProvider } from '@clerk/nextjs'
 import Footer from "@/components/Footer";
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -20,18 +20,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    
+    <ClerkProvider 
+  appearance={{
+    elements: {
+      formButtonPrimary: {
+        fontSize: 14,
+        textTransform: 'none',
+        backgroundColor: '#006955',
+        '&:hover, &:focus, &:active': {
+          backgroundColor: '#006955',
+        },
+      },
+    },
+  }}
+    >
       <body className={outfit.className}>
-      <AuthProvider>
           <div className="md:px-20">
             <Navbar />
           </div>
           {children}
           <Toaster />
           <Footer/>
-        </AuthProvider>
       </body>
-      
+      </ClerkProvider>
     </html>
   );
 }

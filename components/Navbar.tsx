@@ -4,24 +4,20 @@ import { NAVLINK } from '@/constant'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Button } from './ui/button'
-import { signOut, useSession, getProviders, LiteralUnion, ClientSafeProvider } from 'next-auth/react'
+
 import MobileNav from './Mobilenav'
 import { User } from 'next-auth'
+import { SignIn, SignInButton, UserButton, useUser } from '@clerk/nextjs'
+import { Button } from './ui/button'
 
 const Nav: React.FC = () => {
-  const { data: session } = useSession();
-  const user: User = session?.user as User
-  const [providers, setProviders] = useState<Record<LiteralUnion<string>, ClientSafeProvider> | null>(null);
+  const user = useUser()
+  const [isSignIn, setIsSignIn] = useState<boolean>(false)
 
+  if(user.isSignedIn) {
+    setIsSignIn(true)
+  }
 
-  useEffect(() => {
-    const setProvider = async () => {
-      const response = await getProviders()
-      setProviders(response);
-    }
-    setProvider()
-  }, [])
 
   return (
     <div className='shadow-md w-full'>
@@ -42,22 +38,16 @@ const Nav: React.FC = () => {
         </ul>
 
         <div className='lg:flex hidden gap-2 items-center'>
-          {
-                session ? (
-                    <>
-                    <span className="mr-4 font-bold">Welcome,{user.username || user.email} </span>
-                    <Button onClick={() => signOut()} className="w-full md:w-auto hover:bg-primary border border-primary text-black hover:text-white" variant={'outline'}>
-                        Sign Out
-                    </Button>
-                    </>
-                ) : (
-                    <Link href="/sign-in">
-                        <Button onClick={() => signOut()} className="w-full md:w-auto hover:bg-primary border border-primary text-black hover:text-white" variant={'outline'}>
-                        Sign In
-                    </Button>
-                    </Link>
-                )
-            }
+         {
+          isSignIn !== true ?(
+            <Button asChild className='text-white'>
+              <SignInButton/>
+            </Button>
+          ):(
+            <UserButton/>
+          )
+         }
+         
         </div>
 
         <MobileNav />

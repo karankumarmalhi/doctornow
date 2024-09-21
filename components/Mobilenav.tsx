@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import {
     Sheet,
@@ -9,14 +11,19 @@ import { Menu } from 'lucide-react'
 import { NAVLINK } from '@/constant'
 import Link from 'next/link'
 import { Button } from './ui/button'
-import { signOut, useSession, getProviders,  } from 'next-auth/react'
-import { User } from 'next-auth'
+import { SignInButton, UserButton, useUser } from '@clerk/nextjs'
+
   
 
 function MobileNav() {
 
-  const { data: session } = useSession();
-  const user: User = session?.user as User
+    const user = useUser()
+    const [isSignIn, setIsSignIn] = useState<boolean>(false)
+  
+    if(user.isSignedIn) {
+      setIsSignIn(true)
+    }
+  
 
   return (
     <div className='flex lg:hidden'>
@@ -34,23 +41,20 @@ function MobileNav() {
                         </SheetClose>
                     ))
                 }
-                {
-                session ? (
-                    <>
-                    <span className="mr-4 font-bold">Welcome,{user.username || user.email} </span>
-                    <Button onClick={() => signOut()} className="w-full md:w-auto hover:bg-primary border border-primary text-black hover:text-white" variant={'outline'}>
-                        SignOut
-                    </Button>
-                    </>
-                ) : (
-                    <Link href="/sign-in">
-                        <Button onClick={() => signOut()} className="w-full md:w-auto hover:bg-primary border border-primary text-black hover:text-white" variant={'outline'}>
-                        SignIn
-                    </Button>
-                    </Link>
-                )
-            }
+                        <div className='lg:hidden  gap-2 items-center'>
+                                {
+                                isSignIn !== true ?(
+                                    <Button asChild className='text-white'>
+                                    <SignInButton/>
+                                    </Button>
+                                ):(
+                                    <UserButton/>
+                                )
+                                }
+                        </div>
                </ul>
+
+               
 
             </SheetContent>
             </SheetClose>

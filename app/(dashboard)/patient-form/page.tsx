@@ -19,34 +19,25 @@ import {useToast } from "@/components/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { genderSel, identityClo } from "@/constant"
-import { useSession } from "next-auth/react"
-import { User } from "next-auth"
+import { genderSel,} from "@/constant"
 import { redirect } from "next/navigation"
 import { PatientSchema } from "@/app/Schema/patientSchema"
 import { ChevronRight } from "lucide-react"
 import Stepper from "@/components/Stepper"
+import { useUser } from "@clerk/nextjs"
 
 
 function PatientInfo( {searchParams}: { searchParams: {doctorId: string}} ) {
 
   const doctorId = searchParams.doctorId
-  const session = useSession()
-  const user:User = session.data?.user as User
   const { toast } = useToast()
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const router = useRouter()
+  const user = useUser()
 
-
-
-  // if(!user) {
-  //   toast({
-  //     title:"Unauthorized",
-  //     description:"Please login first",
-  //     variant:"destructive"
-  //   })
-  //   redirect('/sign-in')
-  // }
+  if(user.isSignedIn !== true) {
+    redirect('/sign-up') 
+  }
 
   if(!doctorId) {
     redirect('/doctors')  

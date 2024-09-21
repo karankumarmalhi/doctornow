@@ -1,32 +1,45 @@
-import { NextResponse, NextRequest } from 'next/server'
-export { default } from "next-auth/middleware"
-import { getToken } from 'next-auth/jwt'
- 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
-    const token = await getToken({req: request})
-    const url = request.nextUrl
-    if(token && 
-        ( 
-            url.pathname.startsWith('/sign-in') ||
-            url.pathname.startsWith('/sign-up') ||
-            url.pathname.startsWith('/verify') ||
-            url.pathname.startsWith('/') 
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
 
-        )
-    ) {
-        return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  return NextResponse.redirect(new URL('/sign-in', request.url))
-}
- 
-// See "Matching Paths" below to learn more
+const isPiublicRoute = createRouteMatcher([
+  "/sign-in",
+  "/sign-up",
+
+])
+  
+const isPublicApiRoute = createRouteMatcher([
+  "/api/doctors",
+])
+
+export default clerkMiddleware((auth, req) => {
+  const { userId } = auth()
+  const currentUrl = new URL(req.url)
+
+ const isHomePage = currentUrl.pathname === '/'
+ const isApiRequest = currentUrl.pathname.startsWith("/api")
+
+ if(userId && isPiublicRoute(req) && !isHomePage ) {
+  return NextResponse.redirect(new URL("/", req.url))
+ }
+
+ if(!userId) {
+    if(!isPiublicRoute && !isPublicApiRoute(req)) {
+    return NextResponse.redirect(new URL("/sign-in", req.url))
+    
+  }
+
+  if(isApiRequest && !isPublicApiRoute(req)) {
+    return NextResponse.redirect(new URL('/sign-in'))
+  }
+ }
+
+ return NextResponse.next()
+})
 export const config = {
   matcher: [
-    '/verify/:path*',
-    '/doctor-form/:path*',
-    '/patient-form:path*',
-    "/patients/:path*",
-    "/appointment-form/:path*"
-    ],
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
 }

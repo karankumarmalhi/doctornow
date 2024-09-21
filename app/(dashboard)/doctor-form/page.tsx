@@ -10,6 +10,7 @@
   import { Textarea } from '@/components/ui/textarea'
   import { availableDays, DoctorCategory, genderSel } from '@/constant'
   import { cn } from '@/lib/utils'
+import { useUser } from '@clerk/nextjs'
   import { zodResolver } from '@hookform/resolvers/zod'
   import axios, { AxiosError } from 'axios'
   import { ChevronRight } from 'lucide-react'
@@ -28,6 +29,12 @@
     const [uploadedImage, setUploadedImage] = useState<string | undefined>()
     const [isUploading, setIsUploading] = useState<boolean>(false)
     // console.log(uploadedImage)
+    const user = useUser()
+
+    if(user.isSignedIn !== true) {
+      redirect('/sign-up') 
+    }
+  
 
   
     const form = useForm<z.infer<typeof doctorSchema>>({
