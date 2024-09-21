@@ -27,6 +27,7 @@
     "cloudinary": "^2.4.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "first_client_web_online_appoint": "file:",
     "framer-motion": "^11.3.30",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.436.0",
