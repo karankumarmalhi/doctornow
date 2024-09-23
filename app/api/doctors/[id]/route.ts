@@ -3,9 +3,10 @@ import dbConnect from "@/lib/dbConnect";
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request,context:{params : any}) {
+export async function GET(request: Request,{params}:{params : any}) {
    try {
-    const id = context.params.doctor
+    const id = params.id        
+    console.log(id)
      if(!id || !Types.ObjectId.isValid(id)) {
          return Response.json({
              success: false,

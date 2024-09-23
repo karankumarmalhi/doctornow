@@ -17,12 +17,12 @@ import { SignInButton, UserButton, useUser } from '@clerk/nextjs'
 
 function MobileNav() {
 
-    const user = useUser()
-    const [isSignIn, setIsSignIn] = useState<boolean>(false)
+    // const user = useUser()
+    // const [isSignIn, setIsSignIn] = useState<boolean>(false)
   
-    if(user.isSignedIn) {
-      setIsSignIn(true)
-    }
+    // if(user.isSignedIn) {
+    //   setIsSignIn(true)
+    // }
   
 
   return (
@@ -41,7 +41,7 @@ function MobileNav() {
                         </SheetClose>
                     ))
                 }
-                        <div className='lg:hidden  gap-2 items-center'>
+                        {/* <div className='lg:hidden  gap-2 items-center'>
                                 {
                                 isSignIn !== true ?(
                                     <Button asChild className='text-white'>
@@ -51,7 +51,9 @@ function MobileNav() {
                                     <UserButton/>
                                 )
                                 }
-                        </div>
+                        </div> */}
+
+                        <UserButton/>
                </ul>
 
                

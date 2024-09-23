@@ -18,7 +18,7 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Stepper from '@/components/Stepper';
-import { redirect, useParams, useRouter, useSearchParams } from 'next/navigation';
+import { redirect, useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Doctor } from '@/app/model/Doctor';
 import { Label } from '@/components/ui/label';
 import Loader from '@/components/Loader';
@@ -29,11 +29,11 @@ const AppointmentForm = () => {
   const { toast } = useToast();
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [doctor, setDoctor] = useState<Doctor>() 
-  const searchParams = useParams()
-  const doctorId = searchParams.doctorId
-  const id = searchParams.patientId
+  const query = useSearchParams()
+  const doctorId = query.get("doctorId")
+  const id = query.get("patientId")
   const router = useRouter()
-
+  
 
   const form = useForm<z.infer<typeof appointmentSchema>>({
     resolver: zodResolver(appointmentSchema),
@@ -51,8 +51,7 @@ const AppointmentForm = () => {
     redirect('/sign-up') 
   }
 
-
-
+  console.log(doctorId, id)
   useEffect(() => {
     if (!doctorId) return;  
   
@@ -69,10 +68,12 @@ const AppointmentForm = () => {
     fetchDoctor();
   }, [doctorId]);
 
+
   const onSubmit = async (data: z.infer<typeof appointmentSchema>) => {
     console.log(data)
     try {
       setIsSubmit(true)
+      console.log(id, doctorId)
       const response = await axios.post(`/api/appointments?patientId=${id}&doctorId=${doctorId}`,data);
       console.log(data)
 

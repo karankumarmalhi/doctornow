@@ -3,11 +3,11 @@ import dbConnect from "@/lib/dbConnect"
 import mongoose, { Types } from "mongoose"
 import { NextRequest, NextResponse } from "next/server"
 
-export async function GET( request:Request, context:{params:any}) {
+export async function GET( request:Request, {params}:{params:any}) {
 
     await dbConnect()
         try {
-            const doctorId = context.params?.doctorId
+            const doctorId = params.id
             if(!doctorId) {
                 return new NextResponse(JSON.stringify({
                     message:'Appointment Id is required',

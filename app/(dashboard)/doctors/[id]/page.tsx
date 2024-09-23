@@ -19,7 +19,6 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { Appointment } from '@/app/model/Appointment'
 import { Patient } from '@/app/model/Patient'
   
 
@@ -39,7 +38,12 @@ function DoctorProfile() {
         const fetchingDocotor = async ( doctorId:any )=> {
             try {
                 setLoading(true)
-                const response = await axios.get(`/api/doctors/${doctorId}`);
+                
+                const response = await axios.get(`/api/doctors/${doctorId}`, {
+                  params: {
+                    id: doctorId,  // Sending doctorId as a query parameter
+            }});
+
                 const data = await response.data
                 setDoctor(data.doctor)  
             } catch (error) {
@@ -57,7 +61,8 @@ function DoctorProfile() {
         }         
           const fetchingAppointment = async () => {
             try {
-            const response = await axios.get(`/api/doctor-appointments?doctorId=${doctorId}`)
+            const response = await axios.get(`/api/doctor-appointments/${doctorId}`)
+            console.log(response)
               // console.log(response.data.appointments)
               setAppointment(response.data?.appointments)
               setPatientInfo(response.data?.appointments?.patientDetails)
@@ -142,14 +147,15 @@ function DoctorProfile() {
         {
             doctor.availability.map(( { days, startTime, endTime } ) => (
                 <Table key={days}>
-                <TableCaption></TableCaption>
+                <TableCaption key={days}></TableCaption>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">Days</TableHead>
+                    <TableHead className="w-[100px]" key={startTime+endTime}>Days</TableHead>
                     <TableHead>Start time</TableHead>
                     <TableHead>End time</TableHead>
                     <TableHead className="text-right">Day/Night</TableHead>
-                  </TableRow>
+                  </TableRow> npm run dev
+                    
                 </TableHeader>
                 <TableBody>
                   <TableRow>

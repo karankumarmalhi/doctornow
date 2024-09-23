@@ -39,14 +39,14 @@ import { NextRequest, NextResponse } from "next/server";
  }  
 
 
- export async function POST(request:Request, context: {params:any}) {
+ export async function POST(request:Request , context: {params:any}) {
 
     // Creating a new Appointment 
     try {
-        const patientID = context.params.patientId
-        const doctorID = context.params.doctorId
-        console.log(doctorID)
-        
+       const { searchParams } = new URL(request.url)
+       const doctorID = searchParams.get("doctorId")
+       const patientID = searchParams.get("patientId")
+
         if(!patientID || !doctorID) {
            return new NextResponse(JSON.stringify({
             message:'Patient And Doctor IDs are required',

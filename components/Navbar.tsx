@@ -7,16 +7,16 @@ import React, { useEffect, useState } from 'react'
 
 import MobileNav from './Mobilenav'
 import { User } from 'next-auth'
-import { SignIn, SignInButton, UserButton, useUser } from '@clerk/nextjs'
+import { SignOutButton, SignInButton, UserButton, useUser } from '@clerk/nextjs'
 import { Button } from './ui/button'
 
 const Nav: React.FC = () => {
-  const user = useUser()
-  const [isSignIn, setIsSignIn] = useState<boolean>(false)
+  // const user = useUser()
+  // const [isSignIn, setIsSignIn] = useState<boolean>(false)
 
-  if(user.isSignedIn) {
-    setIsSignIn(true)
-  }
+  // if(user.isSignedIn) {
+  //   setIsSignIn(true)
+  // }
 
 
   return (
@@ -37,21 +37,27 @@ const Nav: React.FC = () => {
           }
         </ul>
 
-        <div className='lg:flex hidden gap-2 items-center'>
+        {/* <div className='lg:flex hidden gap-2 items-center'>
          {
           isSignIn !== true ?(
             <Button asChild className='text-white'>
               <SignInButton/>
             </Button>
           ):(
-            <UserButton/>
+            <Button asChild className='text-white'>
+              <SignInButton/>
+            </Button>
           )
          }
          
-        </div>
+        </div> */}
+
+     <div className='hidden lg:flex'>
+     <UserButton/>
+     </div>
 
         <MobileNav />
-      </div>
+      </div >
     </div>
   )
 }
